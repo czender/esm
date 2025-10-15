@@ -13,13 +13,14 @@ main() {
 # --- Configuration flags ----
 
 # Machine and project
-readonly MACHINE=chrysalis
+readonly MACHINE=pm-cpu
 readonly PROJECT="e3sm"
 
 # Simulation
-readonly COMPSET="WCYCL1850"
-readonly RESOLUTION="ne30pg2_r05_IcoswISC30E3r5"
-readonly CASE_NAME="v3.LR.piControl-deepfirn-mec2"
+#readonly COMPSET="WCYCL1850"
+readonly COMPSET="1850_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP" # csz
+readonly RESOLUTION="ne30pg2_r05_IcoswISC30E3r5" # fxm
+readonly CASE_NAME="v3.LR.I.era5_1980s_hex_cld_srt_frn_spn"
 # If this is part of a simulation campaign, ask your group lead about using a case_group label
 # otherwise, comment out
 readonly CASE_GROUP="v3.LR"
@@ -33,14 +34,24 @@ readonly CHERRY=( )
 readonly DEBUG_COMPILE=false
 
 # Run options
-readonly MODEL_START_TYPE="hybrid"  # 'initial', 'continue', 'branch', 'hybrid'
-readonly START_DATE="0100-01-01"
+readonly MODEL_START_TYPE="initial"  # 'initial', 'continue', 'branch', 'hybrid'
+readonly START_YEAR=1
+readonly START_DATE=`printf "%04d" ${START_YEAR}`"-01-01"
 
 # Additional options for 'branch' and 'hybrid'
-readonly GET_REFCASE=TRUE
+readonly GET_REFCASE=FALSE
 readonly RUN_REFDIR="/lcrc/group/e3sm/ac.cbegeman/E3SMv3/v3.LR.piControl/hexagonal/archive/rest/0100-01-01-00000"
 readonly RUN_REFCASE="v3.LR.piControl-hexagonal"
 readonly RUN_REFDATE="0100-01-01"
+
+# Data atmosphere setup for I-case run
+readonly WORK_DATADIR="/lcrc/group/e3sm/ac.szhang/acme_scratch/e3sm_project/E3SMv3_testings"
+readonly DATM_CPLHIST_YR_START="100" # this is start year of data
+readonly DATM_CPLHIST_YR_END="110"
+readonly DATM_CPLHIST_CASE="20250509.v3.LR.piControl.BlueTip.DATM.chrysalis" 
+readonly DATM_CPLHIST_DIR="${WORK_DATADIR}/${DATM_CPLHIST_CASE}/atm_forcing"
+readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"  #this is start year of forcing
+readonly DATM_CPLHIST_DOMAIN_FILE="/lcrc/group/e3sm/data/inputdata/share/domains/domain.lnd.ne30pg2_IcoswISC30E3r5.231121.nc"
 
 # Set paths
 readonly CODE_ROOT="/home/ac.zender/e3sm_repos/${CHECKOUT}/e3sm"
@@ -262,7 +273,7 @@ cat << EOF >> user_nl_elm
  hist_nhtfrq = 0,-24,-876,-8760
  hist_avgflag_pertape = 'A','A','I', 'X'
 
- finidat = '/lcrc/group/e3sm/ac.zender/scratch/v3.LR.piControl.I.hex_eqm/run/v3.LR.piControl.I.hex_eqm.elm.r.0351-01-01-00000.nc'
+ finidat = ''
  check_finidat_pct_consistency = .false.
  use_extrasnowlayers = .true.
  use_firn_percolation_and_compaction = .true.
