@@ -27,9 +27,11 @@ readonly CASE_GROUP="v3.LR"
 
 # Code and compilation
 #readonly CHECKOUT="deep-firn"
-readonly CHECKOUT="v3.0.2"
 #readonly BRANCH="cwhicker/elm/use_extrasnowlayers_bugfix_snowdiags"  # hash 16383cb081a12e5eebae864de2205a308dd6accd
-readonly BRANCH="v3.0.2"  # hash 
+#readonly CHECKOUT="v3.0.2"
+#readonly BRANCH="v3.0.2" # hash 
+readonly CHECKOUT="master.20250917" # fxm: Does this have all required firn changes?
+readonly BRANCH="elm/deepfirn-coldstart-snowinit200mm"
 readonly CHERRY=( )
 readonly DEBUG_COMPILE=false
 
@@ -45,13 +47,19 @@ readonly RUN_REFCASE="v3.LR.piControl-hexagonal"
 readonly RUN_REFDATE="0100-01-01"
 
 # Data atmosphere setup for I-case run
-readonly WORK_DATADIR="/lcrc/group/e3sm/ac.szhang/acme_scratch/e3sm_project/E3SMv3_testings"
-readonly DATM_CPLHIST_YR_START="100" # this is start year of data
-readonly DATM_CPLHIST_YR_END="110"
-readonly DATM_CPLHIST_CASE="20250509.v3.LR.piControl.BlueTip.DATM.chrysalis" 
-readonly DATM_CPLHIST_DIR="${WORK_DATADIR}/${DATM_CPLHIST_CASE}/atm_forcing"
-readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"  #this is start year of forcing
-readonly DATM_CPLHIST_DOMAIN_FILE="/lcrc/group/e3sm/data/inputdata/share/domains/domain.lnd.ne30pg2_IcoswISC30E3r5.231121.nc"
+# Settings for I-case forced by ERA5
+./xmlchange --file env_run.xml --id DATM_MODE --val ERA56HR
+./xmlchange --file env_run.xml --id DATM_CLMNCEP_YR_START --val 1980
+./xmlchange --file env_run.xml --id DATM_CLMNCEP_YR_END --val 1989
+
+# Settings for I-case forced by E3SM coupler data:
+#readonly WORK_DATADIR="/lcrc/group/e3sm/ac.szhang/acme_scratch/e3sm_project/E3SMv3_testings"
+#readonly DATM_CPLHIST_YR_START="100" # this is start year of data
+#readonly DATM_CPLHIST_YR_END="110"
+#readonly DATM_CPLHIST_CASE="20250509.v3.LR.piControl.BlueTip.DATM.chrysalis" 
+#readonly DATM_CPLHIST_DIR="${WORK_DATADIR}/${DATM_CPLHIST_CASE}/atm_forcing"
+#readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"  #this is start year of forcing
+#readonly DATM_CPLHIST_DOMAIN_FILE="/lcrc/group/e3sm/data/inputdata/share/domains/domain.lnd.ne30pg2_IcoswISC30E3r5.231121.nc"
 
 # Set paths
 readonly CODE_ROOT="/home/ac.zender/e3sm_repos/${CHECKOUT}/e3sm"
@@ -265,13 +273,13 @@ cat << EOF >> user_nl_elm
                'SOIL4N_vr','SOIL4P_TNDNCY_VERT_TRANS','SOIL4P_TO_SMINP','SOIL4P_vr','SOLUTIONP_vr',
                'TCS_MONTH_BEGIN','TCS_MONTH_END','TOTCOLCH4','water_scalar','WF',
                'wlim_m','WOODC_LOSS','WTGQ'
- hist_fincl1 = 'SNOWDP','COL_FIRE_CLOSS','NPOOL','PPOOL','TOTPRODC'
- hist_fincl2 = 'H2OSNO', 'FSNO', 'QRUNOFF', 'QSNOMELT', 'FSNO_EFF', 'SNORDSL', 'SNOW', 'FSDS', 'FSR', 'FLDS', 'FIRE', 'FIRA'
- hist_fincl3=  'H2OSNO', 'FSNO', 'FSNO_EFF', 'H2OSFC', 'FH2OSFC', 'SNORDSL', 'SNO_BW', 'SNO_GS', 'SNO_Z', 'SNO_LIQH2O', 'SNO_ICE', 'SOILICE_ICE', 'SOILLIQ_ICE', 'SNO_T', 'TSOI_ICE', 'TH2OSFC', 'SNO_TK', 'SNO_ABS', 'SNO_EXISTENCE','QSNOFRZ_LYR','QSNOMELT_LYR'
- hist_fincl4=  'SNOW_DEPTH', 'H2OSNO', 'SNO_T','QSNOFRZ_LYR','QSNOMELT_LYR'
- hist_mfilt = 1,365,10, 1
- hist_nhtfrq = 0,-24,-876,-8760
- hist_avgflag_pertape = 'A','A','I', 'X'
+ hist_fincl1 = 'COL_FIRE_CLOSS','NPOOL','PPOOL','TOTPRODC',
+               'EFLX_LH_TOT','FIRA','FSA','FSDS','FSDSVD','FSDSND','FSH','FSNO','FSNO_EFF','FSRND','FSRVD','FLDS','H2OSNO',
+	       'QICE','QICE_FRZ','QICE_MELT','QRUNOFF','QSNOFRZ','QSNOMELT','QSOIL',
+	       'RAIN','SNOW','SNOWDP','SNOW_SINKS','SNOW_SOURCES','SNOWICE','SNOWLIQ','SNORDSL','TSA'
+ hist_mfilt = 1
+ hist_nhtfrq = 0
+ hist_avgflag_pertape = 'A'
 
  finidat = ''
  check_finidat_pct_consistency = .false.
@@ -376,7 +384,7 @@ fi
 #-----------------------------------------------------
 fetch_code() {
 
-    if [ "${do_fetch_code,,}" != "true" ]; then
+    if [ "${do_fetch_code',,}" != "true" ]; then
         echo $'\n----- Skipping fetch_code -----\n'
         return
     fi
