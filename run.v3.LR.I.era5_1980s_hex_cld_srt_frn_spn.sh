@@ -19,7 +19,7 @@ readonly PROJECT="e3sm"
 # Simulation
 #readonly COMPSET="WCYCL1850"
 readonly COMPSET="1850_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP" # csz
-readonly RESOLUTION="ne30pg2_r05_IcoswISC30E3r5" # fxm
+readonly RESOLUTION="ERA5r025_r05_IcoswISC30E3r5"
 readonly CASE_NAME="v3.LR.I.era5_1980s_hex_cld_srt_frn_spn"
 # If this is part of a simulation campaign, ask your group lead about using a case_group label
 # otherwise, comment out
@@ -46,12 +46,6 @@ readonly RUN_REFDIR="/lcrc/group/e3sm/ac.cbegeman/E3SMv3/v3.LR.piControl/hexagon
 readonly RUN_REFCASE="v3.LR.piControl-hexagonal"
 readonly RUN_REFDATE="0100-01-01"
 
-# Data atmosphere setup for I-case run
-# Settings for I-case forced by ERA5
-./xmlchange --file env_run.xml --id DATM_MODE --val ERA56HR
-./xmlchange --file env_run.xml --id DATM_CLMNCEP_YR_START --val 1980
-./xmlchange --file env_run.xml --id DATM_CLMNCEP_YR_END --val 1989
-
 # Settings for I-case forced by E3SM coupler data:
 #readonly WORK_DATADIR="/lcrc/group/e3sm/ac.szhang/acme_scratch/e3sm_project/E3SMv3_testings"
 #readonly DATM_CPLHIST_YR_START="100" # this is start year of data
@@ -62,8 +56,8 @@ readonly RUN_REFDATE="0100-01-01"
 #readonly DATM_CPLHIST_DOMAIN_FILE="/lcrc/group/e3sm/data/inputdata/share/domains/domain.lnd.ne30pg2_IcoswISC30E3r5.231121.nc"
 
 # Set paths
-readonly CODE_ROOT="/home/ac.zender/e3sm_repos/${CHECKOUT}/e3sm"
-readonly CASE_ROOT="/lcrc/group/e3sm/ac.zender/scratch/${CASE_NAME}"
+readonly CODE_ROOT="/global/homes/z/zender/e3sm_repos/${CHECKOUT}/E3SM"
+readonly CASE_ROOT="/pscratch/sd/z/zender/${CASE_NAME}"
 #readonly CODE_ROOT="/home/ac.dcomeau/cryo/e3sm_repos/${CHECKOUT}/E3SM"
 #readonly CASE_ROOT="/lcrc/group/acme/ac.dcomeau/scratch/chrys/E3SMv3_dev/${CASE_NAME}"
 #readonly CASE_ROOT="/lcrc/group/acme/ac.dcomeau/scratch/chrys/E3SMv3_dev/${CASE_NAME}"
@@ -129,9 +123,9 @@ readonly OLD_EXECUTABLE=""
 
 # --- Toggle flags for what to do ----
 do_fetch_code=false
-do_create_newcase=false
+do_create_newcase=true
 do_case_setup=true
-do_case_build=false
+do_case_build=true
 do_case_submit=true
 
 # --- Now, do the work ---
@@ -504,6 +498,23 @@ case_setup() {
 
     # csz: Initiate Multiple Elevation Classes (MECs) in ELM non-GLC configuration
     ./xmlchange GLC_NEC=10
+
+    # Settings for I-case forced by ERA5
+    ./xmlchange --file env_run.xml --id DATM_MODE --val ERA56HR # redundant?
+    ./xmlchange --file env_run.xml --id DATM_CLMNCEP_YR_START --val 1980
+    ./xmlchange --file env_run.xml --id DATM_CLMNCEP_YR_END --val 1989
+
+    # PELAYOUT for I-Case
+    ./xmlchange NTASKS=1
+    ./xmlchange NTHRDS=1
+    ./xmlchange ROOTPE=0
+    ./xmlchange MAX_MPITASKS_PER_NODE=128
+    ./xmlchange MAX_TASKS_PER_NODE=128
+
+    # Set to Node # times 128 for PM
+    ./xmlchange CPL_NTASKS=2048
+    ./xmlchange ATM_NTASKS=2048
+    ./xmlchange LND_NTASKS=2048
 
     # Extracts input_data_dir in case it is needed for user edits to the namelist later
     local input_data_dir=`./xmlquery DIN_LOC_ROOT --value`
