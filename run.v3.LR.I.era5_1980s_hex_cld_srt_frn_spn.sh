@@ -378,7 +378,7 @@ fi
 #-----------------------------------------------------
 fetch_code() {
 
-    if [ "${do_fetch_code',,}" != "true" ]; then
+    if [ "${do_fetch_code,,}" != "true" ]; then
         echo $'\n----- Skipping fetch_code -----\n'
         return
     fi
