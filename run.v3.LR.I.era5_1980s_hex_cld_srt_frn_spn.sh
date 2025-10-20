@@ -19,7 +19,7 @@ readonly job_queue="regular"
 
 # Simulation
 #readonly COMPSET="WCYCL1850"
-readonly COMPSET="1850SOI_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP" # Csz
+readonly COMPSET="1850_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP" # csz
 readonly RESOLUTION="ERA5r025_r05_IcoswISC30E3r5"
 readonly CASE_NAME="v3.LR.I.era5_1980s_hex_cld_srt_frn_spn"
 # If this is part of a simulation campaign, ask your group lead about using a case_group label
