@@ -270,7 +270,7 @@ cat << EOF >> user_nl_elm
                'wlim_m','WOODC_LOSS','WTGQ'
  hist_fincl1 = 'COL_FIRE_CLOSS','NPOOL','PPOOL','TOTPRODC',
                'EFLX_LH_TOT','FIRA','FSA','FSDS','FSDSVD','FSDSND','FSH','FSNO','FSNO_EFF','FSRND','FSRVD','FLDS','H2OSNO',
-               'QICE','QICE_FRZ','QICE_MELT','QRUNOFF','QSNOFRZ','QSNOMELT','QSOIL',
+               'QICE','QICE_FRZ','QICE_MELT','QRGWL','QRUNOFF','QSNOFRZ','QSNOMELT','QSOIL',
                'RAIN','SNOW','SNOWDP','SNOW_SINKS','SNOW_SOURCES','SNOWICE','SNOWLIQ','SNORDSL','TSA'
  hist_mfilt = 1
  hist_nhtfrq = 0
