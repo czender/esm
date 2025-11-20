@@ -38,7 +38,7 @@ readonly DEBUG_COMPILE=false
 
 # Run options
 readonly MODEL_START_TYPE="initial"  # 'initial', 'continue', 'branch', 'hybrid'
-readonly START_YEAR=1
+readonly MODEL_START_YEAR=1
 readonly START_DATE=`printf "%04d" ${START_YEAR}`"-01-01"
 
 # Additional options for 'branch' and 'hybrid'
@@ -46,6 +46,14 @@ readonly GET_REFCASE=FALSE
 readonly RUN_REFDIR="/lcrc/group/e3sm/ac.cbegeman/E3SMv3/v3.LR.piControl/hexagonal/archive/rest/0100-01-01-00000"
 readonly RUN_REFCASE="v3.LR.piControl-hexagonal"
 readonly RUN_REFDATE="0100-01-01"
+
+# Settings for I-case forced by ERA5 1980s data
+readonly DATM_MODE="ERA56HR"
+readonly DATM_HIST_YR_ALIGN="${MODEL_START_YEAR}"
+readonly DATM_HIST_YR_START="1980"
+readonly DATM_HIST_YR_END="1989"
+readonly DATM_CO2_TSERIES="20tr"
+readonly DATM_PRESAERO="clim_2000"
 
 # Settings for I-case forced by E3SM coupler data:
 #readonly WORK_DATADIR="/lcrc/group/e3sm/ac.szhang/acme_scratch/e3sm_project/E3SMv3_testings"
@@ -500,10 +508,21 @@ case_setup() {
     # csz: Initiate Multiple Elevation Classes (MECs) in ELM non-GLC configuration
     ./xmlchange GLC_NEC=10
 
-    # Settings for I-case forced by ERA5
-    ./xmlchange --file env_run.xml --id DATM_MODE --val ERA56HR # redundant?
-    ./xmlchange --file env_run.xml --id DATM_CLMNCEP_YR_START --val 1980
-    ./xmlchange --file env_run.xml --id DATM_CLMNCEP_YR_END --val 1989
+    # I-case forced by ERA5 1980s data
+    ./xmlchange DATM_MODE=${DATM_MODE}
+    ./xmlchange DATM_CLMNCEP_YR_ALIGN=${DATM_HIST_YR_ALIGN}
+    ./xmlchange DATM_CLMNCEP_YR_START=${DATM_HIST_YR_START}
+    ./xmlchange DATM_CLMNCEP_YR_END=${DATM_HIST_YR_END}
+    ./xmlchange DATM_CO2_TSERIES=${DATM_CO2_TSERIES}
+    ./xmlchange DATM_PRESAERO=${DATM_PRESAERO}
+
+    # Ensure compatibility with fully coupled B-case
+    ./xmlchange ELM_FORCE_COLDSTART="off"
+    ./xmlchange ROF_NCPL=8
+    ./xmlchange CCSM_BGC="CO2A"
+    ./xmlchange ELM_CO2_TYPE="diagnostic"
+    ./xmlchange BARRIER_OPTION="never"
+    ./xmlchange --id ELM_BLDNML_OPTS --append --val='-bgc bgc -nutrient cnp -nutrient_comp_pathway rd -soil_decomp ctc -methane -solar_rad_scheme top'
 
     # PELAYOUT for I-Case
     ./xmlchange NTASKS=1
