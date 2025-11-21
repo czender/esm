@@ -48,14 +48,13 @@ readonly RUN_REFDATE="0119-01-01"
 readonly ELM_INIT_FILE="${RUN_REFDIR}/${RUN_REFCASE}.elm.r.${RUN_REFDATE}-00000.nc"
 readonly RTM_INIT_FILE="${RUN_REFDIR}/${RUN_REFCASE}.mosart.r.${RUN_REFDATE}-00000.nc"
 
-# Data atmosphere setup for I-case run
-readonly WORK_DATADIR="/lcrc/group/e3sm/ac.szhang/acme_scratch/e3sm_project/E3SMv3_testings"
-readonly DATM_CPLHIST_YR_START="100" # this is start year of data
-readonly DATM_CPLHIST_YR_END="110"
-readonly DATM_CPLHIST_CASE="20250509.v3.LR.piControl.BlueTip.DATM.chrysalis" 
-readonly DATM_CPLHIST_DIR="${WORK_DATADIR}/${DATM_CPLHIST_CASE}/atm_forcing"
-readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"  #this is start year of forcing
-readonly DATM_CPLHIST_DOMAIN_FILE="/lcrc/group/e3sm/data/inputdata/share/domains/domain.lnd.ne30pg2_IcoswISC30E3r5.231121.nc"
+# Settings for I-case forced by ERA5 1980s data
+readonly DATM_MODE="ERA56HR"
+readonly DATM_HIST_YR_ALIGN="${MODEL_START_YEAR}"
+readonly DATM_HIST_YR_START="1980"
+readonly DATM_HIST_YR_END="1989"
+readonly DATM_CO2_TSERIES="20tr"
+readonly DATM_PRESAERO="clim_2000"
 
 # Set paths
 readonly CODE_ROOT="/global/homes/z/zender/e3sm_repos/${CHECKOUT}/E3SM"
@@ -123,17 +122,17 @@ else
   readonly CASE_SCRIPTS_DIR=${CASE_ROOT}/case_scripts
   readonly CASE_RUN_DIR=${CASE_ROOT}/run
   readonly PELAYOUT="M"
-  readonly WALLTIME="30:00:00"
-  readonly STOP_OPTION="nyears"
-  readonly STOP_N="20"
-  readonly REST_OPTION="nyears"
+  readonly WALLTIME="1:00:00"
+  readonly STOP_OPTION="ndays"
+  readonly STOP_N="1"
+  readonly REST_OPTION="ndays"
   readonly REST_N="1"
-  readonly RESUBMIT="4"
+  readonly RESUBMIT="0"
   readonly DO_SHORT_TERM_ARCHIVING=false
 fi
 
 # Coupler history 
-readonly HIST_OPTION="nyears"
+readonly HIST_OPTION="ndays"
 readonly HIST_N="1"
 
 # Leave empty (unless you understand what it does)
