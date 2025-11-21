@@ -7,66 +7,61 @@
 
 main() {
 
-# For debugging, uncomment libe below
+# For debugging, uncomment line below
 #set -x
 
 # --- Configuration flags ----
 
 # Machine and project
-readonly MACHINE=pm-cpu
+readonly MACHINE=pm-cpy
 readonly PROJECT="e3sm"
 readonly job_queue="regular"
 
 # Simulation
 #readonly COMPSET="WCYCL1850"
-readonly COMPSET="1850_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP" # csz
-readonly RESOLUTION="ERA5r025_r05_IcoswISC30E3r5"
-readonly CASE_NAME="v3.LR.I.era5_1980s_hex_cld_srt_frn_spn"
+readonly COMPSET="1850SOI_DATM%CPLHIST_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP"
+readonly RESOLUTION="ne30pg2_r05_IcoswISC30E3r5"
+readonly CASE_NAME="v3.LR.1980.I.cld_srt"
 # If this is part of a simulation campaign, ask your group lead about using a case_group label
 # otherwise, comment out
 readonly CASE_GROUP="v3.LR"
 
 # Code and compilation
-#readonly CHECKOUT="deep-firn"
-#readonly BRANCH="cwhicker/elm/use_extrasnowlayers_bugfix_snowdiags"  # hash 16383cb081a12e5eebae864de2205a308dd6accd
-#readonly CHECKOUT="v3.0.2"
-#readonly BRANCH="v3.0.2" # hash 
-readonly CHECKOUT="master.20250917" # fxm: Does this have all required firn changes?
+readonly CHECKOUT="master.20250917"
 readonly BRANCH="elm/deepfirn-coldstart-snowinit200mm"
+#readonly CHECKOUT="deep-firn"
+#readonly CHECKOUT="v3.0.2"
+#readonly BRANCH="cwhicker/elm/use_extrasnowlayers_bugfix_snowdiags"  # hash 16383cb081a12e5eebae864de2205a308dd6accd
 readonly CHERRY=( )
 readonly DEBUG_COMPILE=false
 
 # Run options
-readonly MODEL_START_TYPE="initial"  # 'initial', 'continue', 'branch', 'hybrid'
-readonly MODEL_START_YEAR=1
+readonly MODEL_START_TYPE='initial' #,"hybrid"  # 'initial', 'continue', 'branch', 'hybrid'
+readonly START_YEAR=1980
 readonly START_DATE=`printf "%04d" ${START_YEAR}`"-01-01"
 
 # Additional options for 'branch' and 'hybrid'
-readonly GET_REFCASE=TRUE
-readonly RUN_REFDIR="/pscratch/sd/z/zender/v3.LR.1980.I.cld_srt/run"
-readonly RUN_REFCASE="v3.LR.1980.I.cld_srt"
-readonly RUN_REFDATE="1980-01-01"
+readonly GET_REFCASE=FALSE
+readonly RUN_REFDIR="/lcrc/group/e3sm/ac.zender/scratch/v3.LR.piControl-deepfirn-mec/run"
+readonly RUN_REFCASE="v3.LR.piControl-deepfirn-mec"
+readonly RUN_REFDATE="0119-01-01"
+readonly ELM_INIT_FILE="${RUN_REFDIR}/${RUN_REFCASE}.elm.r.${RUN_REFDATE}-00000.nc"
+readonly RTM_INIT_FILE="${RUN_REFDIR}/${RUN_REFCASE}.mosart.r.${RUN_REFDATE}-00000.nc"
 
-# Settings for I-case forced by ERA5 1980s data
-readonly DATM_MODE="ERA56HR"
-readonly DATM_HIST_YR_ALIGN="${MODEL_START_YEAR}"
-readonly DATM_HIST_YR_START="1980"
-readonly DATM_HIST_YR_END="1989"
-readonly DATM_CO2_TSERIES="20tr"
-readonly DATM_PRESAERO="clim_2000"
-
-# Settings for I-case forced by E3SM coupler data:
-#readonly WORK_DATADIR="/lcrc/group/e3sm/ac.szhang/acme_scratch/e3sm_project/E3SMv3_testings"
-#readonly DATM_CPLHIST_YR_START="100" # this is start year of data
-#readonly DATM_CPLHIST_YR_END="110"
-#readonly DATM_CPLHIST_CASE="20250509.v3.LR.piControl.BlueTip.DATM.chrysalis" 
-#readonly DATM_CPLHIST_DIR="${WORK_DATADIR}/${DATM_CPLHIST_CASE}/atm_forcing"
-#readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"  #this is start year of forcing
-#readonly DATM_CPLHIST_DOMAIN_FILE="/lcrc/group/e3sm/data/inputdata/share/domains/domain.lnd.ne30pg2_IcoswISC30E3r5.231121.nc"
+# Data atmosphere setup for I-case run
+readonly WORK_DATADIR="/lcrc/group/e3sm/ac.szhang/acme_scratch/e3sm_project/E3SMv3_testings"
+readonly DATM_CPLHIST_YR_START="100" # this is start year of data
+readonly DATM_CPLHIST_YR_END="110"
+readonly DATM_CPLHIST_CASE="20250509.v3.LR.piControl.BlueTip.DATM.chrysalis" 
+readonly DATM_CPLHIST_DIR="${WORK_DATADIR}/${DATM_CPLHIST_CASE}/atm_forcing"
+readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"  #this is start year of forcing
+readonly DATM_CPLHIST_DOMAIN_FILE="/lcrc/group/e3sm/data/inputdata/share/domains/domain.lnd.ne30pg2_IcoswISC30E3r5.231121.nc"
 
 # Set paths
 readonly CODE_ROOT="/global/homes/z/zender/e3sm_repos/${CHECKOUT}/E3SM"
 readonly CASE_ROOT="/pscratch/sd/z/zender/${CASE_NAME}"
+#readonly CODE_ROOT="/home/ac.zender/e3sm_repos/${CHECKOUT}/e3sm"
+#readonly CASE_ROOT="/lcrc/group/e3sm/ac.zender/scratch/${CASE_NAME}"
 #readonly CODE_ROOT="/home/ac.dcomeau/cryo/e3sm_repos/${CHECKOUT}/E3SM"
 #readonly CASE_ROOT="/lcrc/group/acme/ac.dcomeau/scratch/chrys/E3SMv3_dev/${CASE_NAME}"
 #readonly CASE_ROOT="/lcrc/group/acme/ac.dcomeau/scratch/chrys/E3SMv3_dev/${CASE_NAME}"
@@ -85,8 +80,19 @@ readonly CASE_ARCHIVE_DIR=${CASE_ROOT}/archive
 #readonly run='S_1x10_ndays'
 #readonly run='S_2x5_ndays'
 #readonly run='M_1x10_ndays'
+#readonly run='production'
 
-readonly run='production'
+# Custmized nodes to be flexible 
+#readonly run='custom-4_1x10_ndays'
+#readonly run='custom-54_1x10_nyears'
+#readonly run='custom-20_1x10_nyears'
+readonly run='custom-20_1x100_nyears'
+
+readonly CUSTOM_REST_OPTION="ndays" # restarts in units of days
+#readonly CUSTOM_REST_OPTION="nyears" # restarts in units of years
+#readonly CUSTOM_REST_OPTION="nmonths" # restarts in units of months
+readonly CUSTOM_REST_N=1
+readonly CUSTOM_WALLTIME="1:00:00"
 
 if [[ "${run}" != "production" ]]; then
   echo "setting up Short test simulations: ${run}"
@@ -96,15 +102,18 @@ if [[ "${run}" != "production" ]]; then
   units=${tmp[2]}
   resubmit=$(( ${tmp[1]%%x*} -1 ))
   length=${tmp[1]##*x}
-
-  readonly CASE_SCRIPTS_DIR=${CASE_ROOT}/tests/${run}/case_scripts
-  readonly CASE_RUN_DIR=${CASE_ROOT}/tests/${run}/run
+#  printf "run = $run, tmp = $tmp, layout = $layout, units = $units, resubmit = $resubmit, length = $length\n"
+  
+  readonly CASE_SCRIPTS_DIR=${CASE_ROOT}/case_scripts
+  readonly CASE_RUN_DIR=${CASE_ROOT}/run
+#  readonly CASE_SCRIPTS_DIR=${CASE_ROOT}/tests/${run}/case_scripts
+#  readonly CASE_RUN_DIR=${CASE_ROOT}/tests/${run}/run
   readonly PELAYOUT=${layout}
-  readonly WALLTIME="1:00:00"
+  readonly WALLTIME=${CUSTOM_WALLTIME}
   readonly STOP_OPTION=${units}
   readonly STOP_N=${length}
-  readonly REST_OPTION=${STOP_OPTION}
-  readonly REST_N=${STOP_N}
+  readonly REST_OPTION=${CUSTOM_REST_OPTION}
+  readonly REST_N=${CUSTOM_REST_N}
   readonly RESUBMIT=${resubmit}
   readonly DO_SHORT_TERM_ARCHIVING=false
 
@@ -114,12 +123,12 @@ else
   readonly CASE_SCRIPTS_DIR=${CASE_ROOT}/case_scripts
   readonly CASE_RUN_DIR=${CASE_ROOT}/run
   readonly PELAYOUT="M"
-  readonly WALLTIME="48:00:00"
+  readonly WALLTIME="30:00:00"
   readonly STOP_OPTION="nyears"
-  readonly STOP_N="25"
+  readonly STOP_N="20"
   readonly REST_OPTION="nyears"
   readonly REST_N="1"
-  readonly RESUBMIT="3"
+  readonly RESUBMIT="4"
   readonly DO_SHORT_TERM_ARCHIVING=false
 fi
 
@@ -134,8 +143,8 @@ readonly OLD_EXECUTABLE=""
 do_fetch_code=false
 do_create_newcase=true
 do_case_setup=true
-do_case_build=true
-do_case_submit=true
+do_case_build=false #true Set to false once code has been built
+do_case_submit=true #false
 
 # --- Now, do the work ---
 
@@ -176,69 +185,6 @@ echo $'\n----- All done -----\n'
 # =======================
 
 user_nl() {
-
-cat << EOF >> user_nl_eam
- cosp_lite = .true.
-
- empty_htapes = .true.
-
- avgflag_pertape = 'A','A','A','A','I','I'
- nhtfrq = 0,-24,-6,-3,-1,0
- mfilt  = 1,30,120,240,720,1
-
- fincl1 = 'AODALL','AODBC','AODDUST','AODPOM','AODSO4','AODSOA','AODSS','AODVIS',
-          'CLDLOW','CLDMED','CLDHGH','CLDTOT',
-          'CLDHGH_CAL','CLDLOW_CAL','CLDMED_CAL','CLD_MISR','CLDTOT_CAL',
-          'CLMODIS','FISCCP1_COSP','FLDS','FLNS','FLNSC','FLNT','FLUT',
-          'FLUTC','FSDS','FSDSC','FSNS','FSNSC','FSNT','FSNTOA','FSNTOAC','FSNTC',
-          'ICEFRAC','LANDFRAC','LWCF','OCNFRAC','OMEGA','PRECC','PRECL','PRECSC','PRECSL','PS','PSL','Q',
-          'QFLX','QREFHT','RELHUM','SCO','SHFLX','SOLIN','SWCF','T','TAUX','TAUY','TCO',
-          'TGCLDLWP','TMQ','TREFHT','TREFMNAV','TREFMXAV','TS','U','U10','V','Z3',
-          'dst_a1DDF','dst_a3DDF','dst_c1DDF','dst_c3DDF','dst_a1SFWET','dst_a3SFWET','dst_c1SFWET','dst_c3SFWET',
-          'O3','LHFLX',
-          'O3_2DTDA_trop','O3_2DTDB_trop','O3_2DTDD_trop','O3_2DTDE_trop','O3_2DTDI_trop','O3_2DTDL_trop',
-          'O3_2DTDN_trop','O3_2DTDO_trop','O3_2DTDS_trop','O3_2DTDU_trop','O3_2DTRE_trop','O3_2DTRI_trop',
-          'O3_SRF','NO_2DTDS','NO_TDLgt','NO2_2DTDD','NO2_2DTDS','NO2_TDAcf','CO_SRF','TROPE3D_P','TROP_P',
-          'CDNUMC','SFDMS','so4_a1_sfgaex1','so4_a2_sfgaex1','so4_a3_sfgaex1','so4_a5_sfgaex1','soa_a1_sfgaex1',
-          'soa_a2_sfgaex1','soa_a3_sfgaex1','GS_soa_a1','GS_soa_a2','GS_soa_a3','AQSO4_H2O2','AQSO4_O3',
-          'SFSO2','SO2_CLXF','SO2','DF_SO2','AQ_SO2','GS_SO2','WD_SO2','ABURDENSO4_STR','ABURDENSO4_TRO',
-          'ABURDENSO4','ABURDENBC','ABURDENDUST','ABURDENMOM','ABURDENPOM','ABURDENSEASALT',
-          'ABURDENSOA','AODSO4_STR','AODSO4_TRO',
-          'EXTINCT','AODABS','AODABSBC','CLDICE','CLDLIQ','CLD_CAL_TMPLIQ','CLD_CAL_TMPICE','Mass_bc_srf',
-          'Mass_dst_srf','Mass_mom_srf','Mass_ncl_srf','Mass_pom_srf','Mass_so4_srf','Mass_soa_srf','Mass_bc_850',
-          'Mass_dst_850','Mass_mom_850','Mass_ncl_850','Mass_pom_850','Mass_so4_850','Mass_soa_850','Mass_bc_500',
-          'Mass_dst_500','Mass_mom_500','Mass_ncl_500','Mass_pom_500','Mass_so4_500','Mass_soa_500','Mass_bc_330',
-          'Mass_dst_330','Mass_mom_330','Mass_ncl_330','Mass_pom_330','Mass_so4_330','Mass_soa_330','Mass_bc_200',
-          'Mass_dst_200','Mass_mom_200','Mass_ncl_200','Mass_pom_200','Mass_so4_200','Mass_soa_200',
-          'O3_2DTDD','O3_2DCIP','O3_2DCIL','CO_2DTDS','CO_2DTDD','CO_2DCEP','CO_2DCEL','NO_2DTDD',
-          'FLNTC','SAODVIS',
-          'H2OLNZ',
-          'dst_a1SF','dst_a3SF',
-          'PHIS','CLOUD','TGCLDIWP','TGCLDCWP','AREL',
-          'CLDTOT_ISCCP','MEANCLDALB_ISCCP','MEANPTOP_ISCCP','CLD_CAL',
-          'CLDTOT_CAL_LIQ','CLDTOT_CAL_ICE','CLDTOT_CAL_UN',
-          'CLDHGH_CAL_LIQ','CLDHGH_CAL_ICE','CLDHGH_CAL_UN',
-          'CLDMED_CAL_LIQ','CLDMED_CAL_ICE','CLDMED_CAL_UN',
-          'CLDLOW_CAL_LIQ','CLDLOW_CAL_ICE','CLDLOW_CAL_UN',
-          'CLWMODIS','CLIMODIS'
-
- fincl2 = 'PS', 'FLUT','PRECT','U200','V200','U850','V850',
-          'TCO','SCO','TREFHTMN','TREFHTMX','TREFHT','QREFHT'
- fincl3 = 'PS', 'PSL','PRECT','TUQ','TVQ','UBOT','VBOT','TREFHT','FLUT','OMEGA500','TBOT','U850','V850','U200','V200','T200','T500','Z700'
- fincl4 = 'PRECT'
- fincl5 = 'O3_SRF'
- fincl6 = 'CO_2DMSD','NO2_2DMSD','NO_2DMSD','O3_2DMSD','O3_2DMSD_trop'
-
- ! -- chemUCI settings ------------------
- history_chemdyg_summary = .true.
- history_gaschmbudget_2D = .false.
- history_gaschmbudget_2D_levels = .false.
- history_gaschmbudget_num = 6 !! no impact if  history_gaschmbudget_2D = .false.
-
- ! -- MAM5 settings ------------------    
- is_output_interactive_volc = .true.        
-
-EOF
 
 cat << EOF >> user_nl_elm
  hist_dov2xy = .true.,.true.
@@ -284,13 +230,25 @@ cat << EOF >> user_nl_elm
  hist_nhtfrq = 0
  hist_avgflag_pertape = 'A'
 
- finidat = "${ELM_INIT_FILE}"
+ finidat = ''
+ fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251120.nc'
  check_finidat_pct_consistency = .false.
  use_extrasnowlayers = .true.
  use_firn_percolation_and_compaction = .true.
  ! Set aspherical snow grain shape to reduce ice-sheet warm bias
  snow_shape = 'hexagonal_plate'
 
+EOF
+
+cat << EOF >> user_nl_cpl
+  flds_co2a = .true.
+  dust_emis_scheme = 2
+  do_bgc_budgets = .true.
+EOF
+
+cat << EOF >> user_nl_mosart
+ coupling_period = 10800
+ finidat_rtm = "${RTM_INIT_FILE}"
 EOF
 
 }
@@ -368,10 +326,16 @@ then
       ./xmlchange LND_ROOTPE=2176
       ./xmlchange ROF_ROOTPE=2176
 
-    else
+    else 
 
-       echo 'ERRROR: unsupported layout '${PELAYOUT}
-       exit 401
+       echo Using custom ${nnodes} nodes layout
+
+      ./xmlchange CPL_NTASKS=-${nnodes}
+      ./xmlchange ATM_NTASKS=-${nnodes}
+      ./xmlchange OCN_NTASKS=-${nnodes}
+      ./xmlchange LND_NTASKS=-${nnodes}
+      ./xmlchange ROF_NTASKS=-${nnodes}
+      ./xmlchange ICE_NTASKS=-${nnodes}
 
     fi
 
@@ -508,36 +472,27 @@ case_setup() {
     # csz: Initiate Multiple Elevation Classes (MECs) in ELM non-GLC configuration
     ./xmlchange GLC_NEC=10
 
-    # I-case forced by ERA5 1980s data
-    ./xmlchange DATM_MODE=${DATM_MODE}
-    ./xmlchange DATM_CLMNCEP_YR_ALIGN=${DATM_HIST_YR_ALIGN}
-    ./xmlchange DATM_CLMNCEP_YR_START=${DATM_HIST_YR_START}
-    ./xmlchange DATM_CLMNCEP_YR_END=${DATM_HIST_YR_END}
-    ./xmlchange DATM_CO2_TSERIES=${DATM_CO2_TSERIES}
-    ./xmlchange DATM_PRESAERO=${DATM_PRESAERO}
-
-    # Ensure compatibility with fully coupled B-case
-    ./xmlchange ELM_FORCE_COLDSTART="off"
-    ./xmlchange ROF_NCPL=8
-    ./xmlchange CCSM_BGC="CO2A"
-    ./xmlchange ELM_CO2_TYPE="diagnostic"
-    ./xmlchange BARRIER_OPTION="never"
-    ./xmlchange --id ELM_BLDNML_OPTS --append --val='-bgc bgc -nutrient cnp -nutrient_comp_pathway rd -soil_decomp ctc -methane -solar_rad_scheme top'
-
-    # PELAYOUT for I-Case
-    ./xmlchange NTASKS=1
-    ./xmlchange NTHRDS=1
-    ./xmlchange ROOTPE=0
-    ./xmlchange MAX_MPITASKS_PER_NODE=128
-    ./xmlchange MAX_TASKS_PER_NODE=128
-
-    # Set to Node # times 128 for PM
-    ./xmlchange CPL_NTASKS=2048
-    ./xmlchange ATM_NTASKS=2048
-    ./xmlchange LND_NTASKS=2048
-
     # Extracts input_data_dir in case it is needed for user edits to the namelist later
     local input_data_dir=`./xmlquery DIN_LOC_ROOT --value`
+
+    # forcing data
+    ./xmlchange DATM_MODE="CPLHIST"
+    ./xmlchange DATM_CPLHIST_DIR=${DATM_CPLHIST_DIR}
+    ./xmlchange DATM_CPLHIST_CASE=${DATM_CPLHIST_CASE}
+    ./xmlchange DATM_CPLHIST_YR_ALIGN=${DATM_CPLHIST_YR_ALIGN}
+    ./xmlchange DATM_CPLHIST_YR_START=${DATM_CPLHIST_YR_START}
+    ./xmlchange DATM_CPLHIST_YR_END=${DATM_CPLHIST_YR_END}
+    ./xmlchange DATM_CPLHIST_DOMAIN_FILE=${DATM_CPLHIST_DOMAIN_FILE}
+
+    # Necessary to activate MECs in ELM
+    ./xmlchange GLC_NEC=10
+
+    # forced setup to mimic v3.LR fully coupled 
+    ./xmlchange BUDGETS="TRUE"
+    ./xmlchange CCSM_CO2_PPMV="284.317"
+    ./xmlchange ELM_CO2_TYPE="diagnostic"
+    ./xmlchange ELM_FORCE_COLDSTART="off"
+    ./xmlchange ROF_NCPL=8
 
     # Custom user_nl
     user_nl
