@@ -13,7 +13,7 @@ main() {
 # --- Configuration flags ----
 
 # Machine and project
-readonly MACHINE=pm-cpy
+readonly MACHINE=pm-cpu
 readonly PROJECT="e3sm"
 readonly job_queue="regular"
 
@@ -230,6 +230,7 @@ cat << EOF >> user_nl_elm
  hist_avgflag_pertape = 'A'
 
  finidat = ''
+ flanduse_timeseries = ''
  fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251120.nc'
  check_finidat_pct_consistency = .false.
  use_extrasnowlayers = .true.
@@ -468,25 +469,19 @@ case_setup() {
       ./xmlchange --id CAM_CONFIG_OPTS --append --val='-cosp'
     fi
 
-    # csz: Initiate Multiple Elevation Classes (MECs) in ELM non-GLC configuration
-    ./xmlchange GLC_NEC=10
-
     # Extracts input_data_dir in case it is needed for user edits to the namelist later
     local input_data_dir=`./xmlquery DIN_LOC_ROOT --value`
 
-    # forcing data
-    ./xmlchange DATM_MODE="CPLHIST"
-    ./xmlchange DATM_CPLHIST_DIR=${DATM_CPLHIST_DIR}
-    ./xmlchange DATM_CPLHIST_CASE=${DATM_CPLHIST_CASE}
+    # Necessary to activate MECs in ELM in ELM non-GLC configuration
+    ./xmlchange GLC_NEC=10
+
+    # Forcing data
+    ./xmlchange DATM_MODE=${DATM_MODE}
     ./xmlchange DATM_CPLHIST_YR_ALIGN=${DATM_CPLHIST_YR_ALIGN}
     ./xmlchange DATM_CPLHIST_YR_START=${DATM_CPLHIST_YR_START}
     ./xmlchange DATM_CPLHIST_YR_END=${DATM_CPLHIST_YR_END}
-    ./xmlchange DATM_CPLHIST_DOMAIN_FILE=${DATM_CPLHIST_DOMAIN_FILE}
 
-    # Necessary to activate MECs in ELM
-    ./xmlchange GLC_NEC=10
-
-    # forced setup to mimic v3.LR fully coupled 
+    # Force setup to mimic v3.LR fully coupled 
     ./xmlchange BUDGETS="TRUE"
     ./xmlchange CCSM_CO2_PPMV="284.317"
     ./xmlchange ELM_CO2_TYPE="diagnostic"
