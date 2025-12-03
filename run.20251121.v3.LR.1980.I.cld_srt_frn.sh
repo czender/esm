@@ -483,7 +483,9 @@ case_setup() {
 
     # Force setup to mimic v3.LR fully coupled 
     ./xmlchange BUDGETS="TRUE"
-    ./xmlchange CCSM_CO2_PPMV="284.317"
+    # NASA has global mean CO2 concentration in 1980 at 339 ppm 
+    #./xmlchange CCSM_CO2_PPMV="284.317"
+    ./xmlchange CCSM_CO2_PPMV="338.99"
     ./xmlchange ELM_CO2_TYPE="diagnostic"
     ./xmlchange ELM_FORCE_COLDSTART="off"
     ./xmlchange ROF_NCPL=8
