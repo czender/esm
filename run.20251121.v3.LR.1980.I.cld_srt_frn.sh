@@ -487,8 +487,8 @@ case_setup() {
 #    ./xmlchange DATM_CPLHIST_YR_ALIGN=${DATM_CPLHIST_YR_ALIGN}
 #    ./xmlchange DATM_CPLHIST_YR_START=${DATM_CPLHIST_YR_START}
 #    ./xmlchange DATM_CPLHIST_YR_END=${DATM_CPLHIST_YR_END}
-    ./xmlchange DATM_CLMNCEP_YR_START=${DATM_CPLHIST_YR_START}
-    ./xmlchange DATM_CLMNCEP_YR_END=${DATM_CPLHIST_YR_END}
+    ./xmlchange DATM_CLMNCEP_YR_START=${DATM_CLMNCEP_YR_START}
+    ./xmlchange DATM_CLMNCEP_YR_END=${DATM_CLMNCEP_YR_END}
 
     # Force setup to mimic v3.LR fully coupled 
     ./xmlchange BUDGETS="TRUE"
