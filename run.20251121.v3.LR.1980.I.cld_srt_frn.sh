@@ -50,10 +50,10 @@ readonly RTM_INIT_FILE="${RUN_REFDIR}/${RUN_REFCASE}.mosart.r.${RUN_REFDATE}-000
 
 # Settings for I-case forced by ERA5 1980s data
 readonly DATM_MODE="ERA56HR"
-#readonly DATM_HIST_YR_ALIGN="${MODEL_START_YEAR}"
+#readonly DATM_HIST_YR_ALIGN="${START_YEAR}"
 #readonly DATM_HIST_YR_START="1980"
 #readonly DATM_HIST_YR_END="1989"
-readonly DATM_CPLHIST_YR_ALIGN="${MODEL_START_YEAR}"
+readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"
 readonly DATM_CPLHIST_YR_START="1980"
 readonly DATM_CPLHIST_YR_END="1989"
 readonly DATM_CO2_TSERIES="20tr"
@@ -147,7 +147,7 @@ readonly OLD_EXECUTABLE=""
 do_fetch_code=false
 do_create_newcase=true
 do_case_setup=true
-do_case_build=false #true Set to false once code has been built
+do_case_build=true #true Set to false once code has been built
 do_case_submit=true #false
 
 # --- Now, do the work ---
