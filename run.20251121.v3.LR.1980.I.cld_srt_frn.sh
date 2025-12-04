@@ -40,7 +40,7 @@ readonly MODEL_START_TYPE='initial' #,"hybrid"  # 'initial', 'continue', 'branch
 readonly START_YEAR=1980
 readonly START_DATE=`printf "%04d" ${START_YEAR}`"-01-01"
 
-# Additional options for 'branch' and 'hybrid'
+# Additional options for 'branch' and 'hybrid' (not used on 'initial' runs)
 readonly GET_REFCASE=FALSE
 readonly RUN_REFDIR="/lcrc/group/e3sm/ac.zender/scratch/v3.LR.piControl-deepfirn-mec/run"
 readonly RUN_REFCASE="v3.LR.piControl-deepfirn-mec"
