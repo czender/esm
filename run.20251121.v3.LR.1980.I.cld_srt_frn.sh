@@ -85,7 +85,9 @@ readonly CASE_ARCHIVE_DIR=${CASE_ROOT}/archive
 #readonly run='custom-4_1x10_ndays'
 #readonly run='custom-54_1x10_nyears'
 #readonly run='custom-20_1x10_nyears'
-readonly run='custom-20_1x100_nyears'
+#readonly run='custom-20_1x100_nyears'
+
+readonly run='production'
 
 readonly CUSTOM_REST_OPTION="ndays" # restarts in units of days
 #readonly CUSTOM_REST_OPTION="nyears" # restarts in units of years
