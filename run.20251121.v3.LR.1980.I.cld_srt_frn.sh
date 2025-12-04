@@ -52,10 +52,12 @@ readonly RTM_INIT_FILE="${RUN_REFDIR}/${RUN_REFCASE}.mosart.r.${RUN_REFDATE}-000
 readonly DATM_MODE="ERA56HR"
 #readonly DATM_HIST_YR_ALIGN="${START_YEAR}"
 #readonly DATM_HIST_YR_START="1980"
-#readonly DATM_HIST_YR_END="1989"
-readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"
-readonly DATM_CPLHIST_YR_START="1980"
-readonly DATM_CPLHIST_YR_END="1989"
+#readonly DATM_HIST_YR_END="1980"
+#readonly DATM_CPLHIST_YR_ALIGN="${START_YEAR}"
+#readonly DATM_CPLHIST_YR_START="1980"
+#readonly DATM_CPLHIST_YR_END="1980"
+readonly DATM_CLMNCEP_YR_START="1980"
+readonly DATM_CLMNCEP_YR_END="1980"
 readonly DATM_CO2_TSERIES="20tr"
 readonly DATM_PRESAERO="clim_2000"
 
@@ -96,7 +98,7 @@ readonly CUSTOM_REST_OPTION="ndays" # restarts in units of days
 #readonly CUSTOM_REST_OPTION="nyears" # restarts in units of years
 #readonly CUSTOM_REST_OPTION="nmonths" # restarts in units of months
 readonly CUSTOM_REST_N=1
-readonly CUSTOM_WALLTIME="1:00:00"
+readonly CUSTOM_WALLTIME="01:00:00"
 
 if [[ "${run}" != "production" ]]; then
   echo "setting up Short test simulations: ${run}"
@@ -127,7 +129,7 @@ else
   readonly CASE_SCRIPTS_DIR=${CASE_ROOT}/case_scripts
   readonly CASE_RUN_DIR=${CASE_ROOT}/run
   readonly PELAYOUT="M"
-  readonly WALLTIME="1:00:00"
+  readonly WALLTIME="00:30:00"
   readonly STOP_OPTION="ndays"
   readonly STOP_N="1"
   readonly REST_OPTION="ndays"
@@ -482,13 +484,15 @@ case_setup() {
 
     # Forcing data
     ./xmlchange DATM_MODE=${DATM_MODE}
-    ./xmlchange DATM_CPLHIST_YR_ALIGN=${DATM_CPLHIST_YR_ALIGN}
-    ./xmlchange DATM_CPLHIST_YR_START=${DATM_CPLHIST_YR_START}
-    ./xmlchange DATM_CPLHIST_YR_END=${DATM_CPLHIST_YR_END}
+#    ./xmlchange DATM_CPLHIST_YR_ALIGN=${DATM_CPLHIST_YR_ALIGN}
+#    ./xmlchange DATM_CPLHIST_YR_START=${DATM_CPLHIST_YR_START}
+#    ./xmlchange DATM_CPLHIST_YR_END=${DATM_CPLHIST_YR_END}
+    ./xmlchange DATM_CLMNCEP_YR_START=${DATM_CPLHIST_YR_START}
+    ./xmlchange DATM_CLMNCEP_YR_END=${DATM_CPLHIST_YR_END}
 
     # Force setup to mimic v3.LR fully coupled 
     ./xmlchange BUDGETS="TRUE"
-    # NASA has global mean CO2 concentration in 1980 at 339 ppm 
+    # NASA says global mean CO2 concentration in 1980 was 339 ppm 
     #./xmlchange CCSM_CO2_PPMV="284.317"
     ./xmlchange CCSM_CO2_PPMV="338.99"
     ./xmlchange ELM_CO2_TYPE="diagnostic"
