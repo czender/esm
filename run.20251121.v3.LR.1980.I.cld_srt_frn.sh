@@ -255,7 +255,7 @@ EOF
 
 cat << EOF >> user_nl_mosart
  coupling_period = 10800
- finidat_rtm = "${RTM_INIT_FILE}"
+ finidat_rtm =  ''
 EOF
 
 }
