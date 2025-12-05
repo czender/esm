@@ -19,7 +19,8 @@ readonly job_queue="regular"
 
 # Simulation
 #readonly COMPSET="WCYCL1850"
-readonly COMPSET="2000_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP"
+readonly COMPSET="1850_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP"
+#readonly COMPSET="2000_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP"
 readonly RESOLUTION="ne30pg2_r05_IcoswISC30E3r5"
 readonly CASE_NAME="v3.LR.1980.I.cld_srt_frn"
 # If this is part of a simulation campaign, ask your group lead about using a case_group label
@@ -62,7 +63,7 @@ readonly DATM_CO2_TSERIES="20tr"
 readonly DATM_PRESAERO="clim_2000"
 
 # Set paths
-readonly CODE_ROOT="/global/homes/z/zender/e3sm_repos/${CHECKOUT}/E3SM"
+readonly CODE_ROOT="/global/cfs/cdirs/e3sm/zender/e3sm_repos/${CHECKOUT}/E3SM"
 readonly CASE_ROOT="/pscratch/sd/z/zender/${CASE_NAME}"
 #readonly CODE_ROOT="/home/ac.zender/e3sm_repos/${CHECKOUT}/e3sm"
 #readonly CASE_ROOT="/lcrc/group/e3sm/ac.zender/scratch/${CASE_NAME}"
