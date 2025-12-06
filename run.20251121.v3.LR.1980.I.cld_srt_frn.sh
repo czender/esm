@@ -240,7 +240,7 @@ cat << EOF >> user_nl_elm
 
  finidat = ''
  flanduse_timeseries = ''
- fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251120.nc'
+ fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
  check_finidat_pct_consistency = .false.
  use_extrasnowlayers = .true.
  use_firn_percolation_and_compaction = .true.
