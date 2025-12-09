@@ -151,7 +151,7 @@ readonly OLD_EXECUTABLE=""
 do_fetch_code=false
 do_create_newcase=true
 do_case_setup=true
-do_case_build=true #true Set to false once code has been built
+do_case_build=false #true Set to false once code has been built
 do_case_submit=true #false
 
 # --- Now, do the work ---
