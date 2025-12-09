@@ -247,7 +247,7 @@ cat << EOF >> user_nl_elm
  snow_shape = 'hexagonal_plate'
  ! Force 1980 conditions
  fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
- flandtopo = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
+ flndtopo = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
  stream_year_first_ndep = 1980
  stream_year_last_ndep = 1980
  stream_year_first_pdep = 1980
