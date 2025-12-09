@@ -241,19 +241,11 @@ cat << EOF >> user_nl_elm
  finidat = ''
  flanduse_timeseries = ''
  fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
- flandtopo = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
- stream_year_first_ndep = 1980
- stream_year_last_ndep = 1980
- stream_year_first_pdep = 1980
- stream_year_last_pdep = 1980
- stream_year_first_popdens = 1980
- stream_year_last_popdens = 1980
  check_finidat_pct_consistency = .false.
  use_extrasnowlayers = .true.
  use_firn_percolation_and_compaction = .true.
  ! Set aspherical snow grain shape to reduce ice-sheet warm bias
  snow_shape = 'hexagonal_plate'
-
 EOF
 
 cat << EOF >> user_nl_cpl
