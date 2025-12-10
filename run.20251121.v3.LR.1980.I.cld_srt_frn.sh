@@ -252,6 +252,7 @@ cat << EOF >> user_nl_elm
  stream_year_last_ndep = 1980
  stream_year_first_pdep = 1980
  stream_year_last_pdep = 1980
+ stream_fldfilename_pdep = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/pdepdata/pdep_1850-2013_c20171101.nc'
  stream_year_first_popdens = 1980
  stream_year_last_popdens = 1980
 EOF
