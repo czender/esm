@@ -245,16 +245,21 @@ cat << EOF >> user_nl_elm
  use_firn_percolation_and_compaction = .true.
  ! Set aspherical snow grain shape to reduce ice-sheet warm bias
  snow_shape = 'hexagonal_plate'
+ ! Set bare-ice albedos to MODIS-informed values from Whicker et al. (2024)
+ albice = 0.567,0.330
  ! Force 1980 conditions
  fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
  flndtopo = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
  stream_year_first_ndep = 1980
  stream_year_last_ndep = 1980
- stream_year_first_pdep = 1980
- stream_year_last_pdep = 1980
- stream_fldfilename_pdep = '/global/cfs/cdirs/e3sm/zender/pdep_1850-2013_c20251201.nc'
  stream_year_first_popdens = 1980
  stream_year_last_popdens = 1980
+ ! P-deposition is only supported for Year 2000
+ model_year_align_pdep = 2000
+ pdepmapalgo = 'bilinear'
+ stream_fldfilename_pdep = '/lcrc/group/e3sm/data/inputdata/lnd/clm2/pdepdata/fpdep_clm_hist_simyr2000_1.9x2.5_c150929.nc'
+ stream_year_first_pdep = 2000
+ stream_year_last_pdep = 2000
 EOF
 
 cat << EOF >> user_nl_cpl
