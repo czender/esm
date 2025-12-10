@@ -257,7 +257,7 @@ cat << EOF >> user_nl_elm
  ! P-deposition is only supported for Year 2000
  model_year_align_pdep = 2000
  pdepmapalgo = 'bilinear'
- stream_fldfilename_pdep = '/lcrc/group/e3sm/data/inputdata/lnd/clm2/pdepdata/fpdep_clm_hist_simyr2000_1.9x2.5_c150929.nc'
+ stream_fldfilename_pdep = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/pdepdata/fpdep_clm_hist_simyr2000_1.9x2.5_c150929.nc'
  stream_year_first_pdep = 2000
  stream_year_last_pdep = 2000
 EOF
