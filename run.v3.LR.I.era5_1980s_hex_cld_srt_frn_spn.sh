@@ -139,7 +139,7 @@ readonly OLD_EXECUTABLE=""
 do_fetch_code=false
 do_create_newcase=true
 do_case_setup=true
-do_case_build=true
+do_case_build=false
 do_case_submit=true
 
 # --- Now, do the work ---
@@ -297,6 +297,9 @@ cat << EOF >> user_nl_elm
  snow_shape = 'hexagonal_plate'
  ! Set bare-ice albedos to MODIS-informed values from Whicker et al. (2024)
  albice = 0.567,0.330
+ ! Force 1980 conditions
+ fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
+ flndtopo = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
 
 EOF
 
