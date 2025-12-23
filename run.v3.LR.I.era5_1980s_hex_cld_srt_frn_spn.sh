@@ -300,8 +300,10 @@ cat << EOF >> user_nl_elm
  ! Force 1980 conditions
  fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
  flndtopo = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
+ model_year_align_ndep = 1980
  stream_year_first_ndep = 1980
  stream_year_last_ndep = 1989
+ model_year_align_popdens = 1980
  stream_year_first_popdens = 1980
  stream_year_last_popdens = 1989
  ! P-deposition is only supported for Year 2000
