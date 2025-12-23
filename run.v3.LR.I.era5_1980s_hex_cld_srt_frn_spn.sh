@@ -87,9 +87,9 @@ readonly CASE_ARCHIVE_DIR=${CASE_ROOT}/archive
 #  or 'production' for full simulation
 
 #readonly run='L_1x10_ndays'  # build with this to ensure non-threading
-readonly run='S_1x10_ndays'
+#readonly run='S_1x10_ndays'
 #readonly run='S_2x5_ndays'
-#readonly run='M_1x10_ndays'
+readonly run='M_1x10_ndays'
 
 #readonly run='production'
 
@@ -300,7 +300,16 @@ cat << EOF >> user_nl_elm
  ! Force 1980 conditions
  fsurdat = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
  flndtopo = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/surfdata_map/surfdata_0.5x0.5_simyr1980_c251205.nc'
-
+ stream_year_first_ndep = 1980
+ stream_year_last_ndep = 1989
+ stream_year_first_popdens = 1980
+ stream_year_last_popdens = 1989
+ ! P-deposition is only supported for Year 2000
+ model_year_align_pdep = 2000
+ pdepmapalgo = 'bilinear'
+ stream_fldfilename_pdep = '/global/cfs/cdirs/e3sm/inputdata/lnd/clm2/pdepdata/fpdep_clm_hist_simyr2000_1.9x2.5_c150929.nc'
+ stream_year_first_pdep = 2000
+ stream_year_last_pdep = 2000
 EOF
 
 }
