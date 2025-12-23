@@ -19,7 +19,8 @@ readonly job_queue="regular"
 
 # Simulation
 #readonly COMPSET="WCYCL1850"
-readonly COMPSET="1850_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP" # csz
+#readonly COMPSET="1850_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP" # csz
+readonly COMPSET="2000_DATM%ERA56HR_ELM%CNPRDCTCBCTOP_SICE_SOCN_MOSART_SGLC_SWAV_SIAC_SESP"
 readonly RESOLUTION="ERA5r025_r05_IcoswISC30E3r5"
 readonly CASE_NAME="v3.LR.I.era5_1980s_hex_cld_srt_frn_spn"
 # If this is part of a simulation campaign, ask your group lead about using a case_group label
@@ -37,15 +38,19 @@ readonly CHERRY=( )
 readonly DEBUG_COMPILE=false
 
 # Run options
-readonly MODEL_START_TYPE="initial"  # 'initial', 'continue', 'branch', 'hybrid'
+readonly MODEL_START_TYPE="hybrid"  # 'initial', 'continue', 'branch', 'hybrid'
 readonly MODEL_START_YEAR=1
-readonly START_DATE=`printf "%04d" ${START_YEAR}`"-01-01"
+readonly START_DATE=`printf "%04d" ${START_YEAR}`"-01-02"
 
 # Additional options for 'branch' and 'hybrid'
 readonly GET_REFCASE=TRUE
-readonly RUN_REFDIR="/pscratch/sd/z/zender/v3.LR.1980.I.cld_srt/run"
-readonly RUN_REFCASE="v3.LR.1980.I.cld_srt"
-readonly RUN_REFDATE="1980-01-01"
+readonly RUN_REFDIR="/pscratch/sd/z/zender/v3.LR.1980.I.cld_srt_frn/run"
+readonly RUN_REFCASE="v3.LR.1980.I.cld_srt_frn"
+readonly RUN_REFDATE="1980-01-02"
+# Restart file modified to include full BGC fields from 1850 PI-controls
+readonly ELM_INIT_FILE="/global/cfs/projectdirs/e3sm/www/zhan391/share_land/1980-01-02-00000/v3.LR.1980.I.cld_srt_frn.elm.r.1980-01-02-00000.nc"
+#readonly ELM_INIT_FILE="${RUN_REFDIR}/${RUN_REFCASE}.elm.r.${RUN_REFDATE}-00000.nc"
+readonly RTM_INIT_FILE="${RUN_REFDIR}/${RUN_REFCASE}.mosart.r.${RUN_REFDATE}-00000.nc"
 
 # Settings for I-case forced by ERA5 1980s data
 readonly DATM_MODE="ERA56HR"
@@ -290,6 +295,8 @@ cat << EOF >> user_nl_elm
  use_firn_percolation_and_compaction = .true.
  ! Set aspherical snow grain shape to reduce ice-sheet warm bias
  snow_shape = 'hexagonal_plate'
+ ! Set bare-ice albedos to MODIS-informed values from Whicker et al. (2024)
+ albice = 0.567,0.330
 
 EOF
 
