@@ -87,11 +87,11 @@ readonly CASE_ARCHIVE_DIR=${CASE_ROOT}/archive
 #  or 'production' for full simulation
 
 #readonly run='L_1x10_ndays'  # build with this to ensure non-threading
-#readonly run='S_1x10_ndays'
+readonly run='S_1x10_ndays'
 #readonly run='S_2x5_ndays'
 #readonly run='M_1x10_ndays'
 
-readonly run='production'
+#readonly run='production'
 
 if [[ "${run}" != "production" ]]; then
   echo "setting up Short test simulations: ${run}"
