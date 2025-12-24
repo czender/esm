@@ -89,9 +89,9 @@ readonly CASE_ARCHIVE_DIR=${CASE_ROOT}/archive
 #readonly run='L_1x10_ndays'  # build with this to ensure non-threading
 #readonly run='S_1x10_ndays'
 #readonly run='S_2x5_ndays'
-readonly run='M_1x10_ndays'
+#readonly run='M_1x10_ndays'
 
-#readonly run='production'
+readonly run='production'
 
 if [[ "${run}" != "production" ]]; then
   echo "setting up Short test simulations: ${run}"
@@ -121,10 +121,10 @@ else
   readonly PELAYOUT="M"
   readonly WALLTIME="48:00:00"
   readonly STOP_OPTION="nyears"
-  readonly STOP_N="25"
+  readonly STOP_N="20"
   readonly REST_OPTION="nyears"
   readonly REST_N="1"
-  readonly RESUBMIT="3"
+  readonly RESUBMIT="0"
   readonly DO_SHORT_TERM_ARCHIVING=false
 fi
 
